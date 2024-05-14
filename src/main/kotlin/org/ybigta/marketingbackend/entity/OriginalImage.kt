@@ -5,22 +5,29 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import org.ybigta.marketingbackend.entity.base.AuditLoggingBase
 
 @Entity
 class OriginalImage(
-    @Column
+    @Column(nullable = false)
     val name: String,
+
     @Column
     val originalFilename: String?,
+
     @Column
     val contentType: String?,
-    @Column
+
+    @Column(nullable = false)
     val emptyBytes: Boolean,
-    @Column
+
+    @Column(nullable = false)
     val size: Long,
+
     @Column(columnDefinition = "LONGBLOB")
     val bytes: ByteArray,
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = -1,
-)
+) : AuditLoggingBase()
