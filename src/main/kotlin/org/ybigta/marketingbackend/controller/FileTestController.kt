@@ -1,5 +1,7 @@
 package org.ybigta.marketingbackend.controller
 
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
@@ -33,5 +35,15 @@ class FileTestController(
             emptyBytes = originalImage.emptyBytes,
             size = originalImage.size,
         )
+    }
+
+    @GetMapping(
+        "/originalImages/{originalImageId}/bytes",
+        produces = ["image/jpeg", "image/png", "image/gif"],
+    )
+    fun getOriginalImageBytes(@PathVariable originalImageId: Long): ByteArray {
+        val originalImage = originalImageRepository.findById(originalImageId).get()
+        val bytes = originalImage.bytes
+        return bytes
     }
 }
