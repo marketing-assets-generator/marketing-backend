@@ -3,20 +3,19 @@ package org.ybigta.marketingbackend.controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
-import org.ybigta.marketingbackend.controller.request.GetModelImageRequest
 import org.ybigta.marketingbackend.controller.response.OriginalImageResponse
 import org.ybigta.marketingbackend.entity.OriginalImage
 import org.ybigta.marketingbackend.infra.client.ModelClient
-import org.ybigta.marketingbackend.infra.client.request.ModelClientGetImageRequest
+import org.ybigta.marketingbackend.repository.ModelOutputImageRepository
 import org.ybigta.marketingbackend.repository.OriginalImageRepository
 
 @RestController
 class FileTestController(
     private val originalImageRepository: OriginalImageRepository,
+    private val modelOutputImageRepository: ModelOutputImageRepository,
     private val modelClient: ModelClient,
 ) {
     @PostMapping("/")
@@ -50,16 +49,5 @@ class FileTestController(
         val originalImage = originalImageRepository.findById(originalImageId).get()
         val bytes = originalImage.bytes
         return bytes
-    }
-
-    @PostMapping(
-        "/model/test",
-        produces = ["image/jpeg", "image/png", "image/gif"],
-    )
-    fun getModelImage(
-        @RequestBody getModelImageRequest: GetModelImageRequest,
-    ): ByteArray {
-        val request = ModelClientGetImageRequest(prompt = getModelImageRequest.prompt)
-        return modelClient.getImage(request)
     }
 }
