@@ -1,5 +1,6 @@
 package org.ybigta.marketingbackend.infra.client.request
 
-data class ModelClientGetImageRequest(
+data class ModelClientGenerateImageRequest(
     val prompt: String,
+    val originalImageId: Long?,
 )
